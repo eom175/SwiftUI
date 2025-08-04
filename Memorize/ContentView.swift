@@ -14,12 +14,16 @@ struct ContentView: View
 { // 이 안에 있는 것들은 어딘가에 저장 안됨
     // 매 계산마다 그냥 계산됨
     //some View : 코드를 실행
+    let emojis: Array<String> = ["👻",  "🎃", "🕷️", "👿", "👿"]
+
     var body: some View{
+
         HStack{
-            CardView(isFaceUp: true)
-            CardView()
-            CardView(isFaceUp: true)
-            CardView(isFaceUp: true)
+            ForEach(emojis.indices, id: \.self){ //반복문
+                index in //index가 for문에셔 i 역할
+                CardView(content: emojis[index])
+
+            }
             
             
             
@@ -31,8 +35,11 @@ struct ContentView: View
     }
     struct CardView: View
     {
-        @State var isFaceUp = false //let isFaceUp 도 가능. 근데 이러면 위의 CardView에서 인수를 false로만 써야 함
+        let content: String
+        @State var isFaceUp = true //let isFaceUp 도 가능. 근데 이러면 위의 CardView에서 인수를 false로만 써야 함
         //State 써서 변경할 수 있게
+        
+        
         var body: some View
         {
             ZStack
@@ -43,7 +50,7 @@ struct ContentView: View
                 {
                     base.fill(.white)
                     base.strokeBorder(lineWidth: 2)
-                    Text("👻").font(.largeTitle)
+                    Text(content).font(.largeTitle)
                 }
                 
                 else
