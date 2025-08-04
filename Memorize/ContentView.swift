@@ -18,8 +18,8 @@ struct ContentView: View
         HStack{
             CardView(isFaceUp: true)
             CardView()
-            CardView()
-            CardView()
+            CardView(isFaceUp: true)
+            CardView(isFaceUp: true)
             
             
             
@@ -27,31 +27,39 @@ struct ContentView: View
         .foregroundColor(.orange)
         .padding()
         
-
+       
     }
-    struct CardView: View{
-        var isFaceUp: Bool = false
-        var body: some View{
-            ZStack {
-                if isFaceUp {
-                    RoundedRectangle(cornerRadius:12).foregroundColor(.white)
-                    RoundedRectangle(cornerRadius:12).strokeBorder(lineWidth:2)
+    struct CardView: View
+    {
+        @State var isFaceUp = false //let isFaceUp 도 가능. 근데 이러면 위의 CardView에서 인수를 false로만 써야 함
+        //State 써서 변경할 수 있게
+        var body: some View
+        {
+            ZStack
+            {
+                //let base = RoundedRectangle(cornerRadius:12) // Type Inference(유형추론)
+                let base = Circle()
+                if isFaceUp
+                {
+                    base.fill(.white)
+                    base.strokeBorder(lineWidth: 2)
                     Text("👻").font(.largeTitle)
                 }
-                else{
-                    RoundedRectangle(cornerRadius:12)
+                
+                else
+                {
+                    base.fill()//.fill()이 기본설정
                 }
-            }
+            }.onTapGesture{//View를 탭할 때 이 함수 호출 , onTapGesture(count:2) --> 더블 탭 했을 때 호출
+                
+                isFaceUp.toggle()
+
+             }
             
         }
     }
-    
-    struct ContentView_Previews: PreviewProvider
-    {
-        static var previews: some View
-        {
-            ContentView()
-        }
-    }
-    
 }
+#Preview{
+    ContentView()
+}
+
